@@ -117,7 +117,7 @@
           </p>
           <p class="mode-url">
             <span>API: </span>
-            <code>{{ store.config.mode === 'local' ? store.config.localUrl : 'api.sms-gate.app' }}</code>
+            <code>{{ store.config.mode === 'local' ? store.config.local.url : 'api.sms-gate.app' }}</code>
           </p>
         </div>
       </div>

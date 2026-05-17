@@ -30,4 +30,10 @@ router.afterEach((to) => {
 
 const app = createApp(App)
 app.use(router)
+
+// Global error handler — logs component errors to console so blank pages are diagnosable
+app.config.errorHandler = (err, instance, info) => {
+  console.error('[Vue Error]', info, err)
+}
+
 app.mount('#app')

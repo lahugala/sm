@@ -541,18 +541,23 @@ tbody td {
   50% { box-shadow: 0 0 25px rgba(108, 99, 255, 0.7); }
 }
 
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 0.2s ease, transform 0.2s ease;
+.fade-enter-active {
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.fade-leave-active {
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  pointer-events: none;
 }
 
 .fade-enter-from {
   opacity: 0;
-  transform: translateY(8px);
+  transform: translateY(6px);
 }
 
 .fade-leave-to {
   opacity: 0;
-  transform: translateY(-8px);
+  transform: translateY(-6px);
 }
 
 .animate-in {
