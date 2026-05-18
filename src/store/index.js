@@ -2,7 +2,7 @@ import { reactive, computed } from 'vue'
 import { createApiClient } from '../services/smsApi'
 
 const DEFAULT_CONFIG = {
-  mode: 'local',           // active mode: 'local' | 'cloud'
+  mode: 'cloud',           // active mode: 'local' | 'cloud'
 
   // ── Local (LAN) credentials ──────────────────────────────────────
   local: {
@@ -14,8 +14,9 @@ const DEFAULT_CONFIG = {
 
   // ── Cloud credentials ─────────────────────────────────────────────
   cloud: {
-    username: '',
-    password: '',
+    username: 'H3VON6',
+    password: 'cd6goxy1kx3nq2',
+    deviceId: '_NU3lzBBnhlyr1C50BJzC',
   },
 
   // ── Shared message defaults ───────────────────────────────────────

@@ -348,6 +348,10 @@ async function sendMessage() {
     if (simNumber.value !== null) payload.simNumber = simNumber.value
     if (ttl.value) payload.ttl = ttl.value
 
+    // if (store.config.mode === 'cloud' && store.config.cloud.deviceId) {
+    //   payload.deviceId = store.config.cloud.deviceId
+    // }
+
     // Convert local datetime to UTC ISO string for the API
     let scheduledFor = null
     if (useSchedule.value && scheduleAt.value) {

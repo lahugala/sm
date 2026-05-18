@@ -51,7 +51,7 @@ export function createApiClient(config) {
  *   priority         – 0 (normal) … 100 (urgent, skips delays)
  *   scheduleAt       – UTC ISO string, e.g. "2026-05-17T08:00:00.000Z"
  */
-export async function sendMessage(apiClient, { message, phoneNumbers, withDeliveryReport, simNumber, ttl, priority, scheduleAt }) {
+export async function sendMessage(apiClient, { message, phoneNumbers, withDeliveryReport, simNumber, ttl, priority, scheduleAt, deviceId }) {
   const payload = {
     message,
     phoneNumbers: Array.isArray(phoneNumbers) ? phoneNumbers : [phoneNumbers],
@@ -62,6 +62,7 @@ export async function sendMessage(apiClient, { message, phoneNumbers, withDelive
   if (ttl !== undefined && ttl !== null) payload.ttl = ttl
   if (priority !== undefined && priority !== 0) payload.priority = priority
   if (scheduleAt) payload.scheduleAt = scheduleAt
+  if (deviceId) payload.deviceId = deviceId
 
   const { data } = await apiClient.post('/message', payload)
   return data

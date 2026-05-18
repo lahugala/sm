@@ -111,6 +111,10 @@
                 <button type="button" class="password-toggle" @click="showCloudPwd = !showCloudPwd">{{ showCloudPwd ? '🙈' : '👁' }}</button>
               </div>
             </div>
+            <div class="form-group">
+              <label class="form-label" for="cloud-device-id">Device ID</label>
+              <input id="cloud-device-id" v-model="form.cloud.deviceId" type="text" class="form-control" placeholder="Device ID (optional)" autocomplete="off" />
+            </div>
           </div>
 
           <transition name="fade">
@@ -255,6 +259,7 @@ const form = reactive({
   cloud: {
     username: store.config.cloud.username,
     password: store.config.cloud.password,
+    deviceId: store.config.cloud.deviceId,
   },
   simNumber:          store.config.simNumber,
   withDeliveryReport: store.config.withDeliveryReport,
