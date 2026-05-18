@@ -35,6 +35,8 @@ export function createApiClient(config) {
     },
   })
 
+  client.isCloud = !isLocal
+
   return client
 }
 
@@ -64,7 +66,8 @@ export async function sendMessage(apiClient, { message, phoneNumbers, withDelive
   if (scheduleAt) payload.scheduleAt = scheduleAt
   if (deviceId) payload.deviceId = deviceId
 
-  const { data } = await apiClient.post('/message', payload)
+  const endpoint = apiClient.isCloud ? '/messages' : '/message'
+  const { data } = await apiClient.post(endpoint, payload)
   return data
 }
 
@@ -73,7 +76,8 @@ export async function sendMessage(apiClient, { message, phoneNumbers, withDelive
  * GET /message/:id
  */
 export async function getMessageStatus(apiClient, messageId) {
-  const { data } = await apiClient.get(`/message/${messageId}`)
+  const endpoint = apiClient.isCloud ? `/messages/${messageId}` : `/message/${messageId}`
+  const { data } = await apiClient.get(endpoint)
   return data
 }
 
