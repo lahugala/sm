@@ -59,7 +59,7 @@ import { ref, computed } from 'vue'
 import { store } from '../store/index.js'
 import {
   LayoutDashboard, Send, Inbox, Clock, Settings,
-  MessageSquare, ChevronLeft, ChevronRight
+  MessageSquare, ChevronLeft, ChevronRight, Code2
 } from 'lucide-vue-next'
 
 const isCollapsed = ref(false)
@@ -69,6 +69,7 @@ const navItems = [
   { path: '/send',      label: 'Send SMS',  icon: Send },
   { path: '/inbox',     label: 'Inbox',     icon: Inbox },
   { path: '/history',   label: 'History',   icon: Clock },
+  { path: '/api',       label: 'API Docs',  icon: Code2 },
   { path: '/settings',  label: 'Settings',  icon: Settings },
 ]
 

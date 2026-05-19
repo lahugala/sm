@@ -516,9 +516,9 @@ function avatarLetter(str) {
   gap: 2px;
   max-height: 320px;
   overflow-y: auto;
+  overflow-x: hidden;
   border: 1px solid var(--clr-border);
   border-radius: var(--radius-md);
-  overflow: hidden;
 }
 
 .contact-row {

@@ -9,6 +9,7 @@ import History from './views/History.vue'
 import Settings from './views/Settings.vue'
 import Dashboard from './views/Dashboard.vue'
 import Inbox from './views/Inbox.vue'
+import ApiDetails from './views/ApiDetails.vue'
 
 const routes = [
   { path: '/', redirect: '/dashboard' },
@@ -16,6 +17,7 @@ const routes = [
   { path: '/send', component: SendSMS, meta: { title: 'Send SMS' } },
   { path: '/inbox', component: Inbox, meta: { title: 'Inbox' } },
   { path: '/history', component: History, meta: { title: 'Message History' } },
+  { path: '/api', component: ApiDetails, meta: { title: 'API Details' } },
   { path: '/settings', component: Settings, meta: { title: 'Settings' } },
 ]
 

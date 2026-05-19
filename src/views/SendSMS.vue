@@ -449,6 +449,9 @@ async function sendMessage() {
   flex-wrap: wrap;
   gap: var(--space-xs);
   margin-top: var(--space-sm);
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 4px;
 }
 
 .field-hint {
