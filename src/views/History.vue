@@ -78,14 +78,26 @@
                 <span :class="['badge', statusBadge(msg.status)]">{{ msg.status }}</span>
               </td>
               <td>
-                <button
-                  class="btn btn-ghost btn-sm btn-icon"
-                  @click="viewDetail(msg)"
-                  :id="`view-${msg.id}`"
-                  title="View details"
-                >
-                  👁
-                </button>
+                <div style="display: flex; gap: var(--space-xs);">
+                  <button
+                    class="btn btn-ghost btn-sm btn-icon"
+                    @click="viewDetail(msg)"
+                    :id="`view-${msg.id}`"
+                    title="View details"
+                  >
+                    👁
+                  </button>
+                  <button
+                    v-if="store.isConfigured && msg.id"
+                    class="btn btn-ghost btn-sm btn-icon"
+                    :disabled="isRefreshing"
+                    @click="refreshStatus(msg.id)"
+                    title="Refresh status"
+                  >
+                    <span v-if="isRefreshing" class="spinner btn-spinner-sm"></span>
+                    <span v-else>🔄</span>
+                  </button>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -119,7 +131,19 @@
           </div>
           <div class="detail-row">
             <span class="detail-key">Status</span>
-            <span :class="['badge', statusBadge(selectedMsg.status)]">{{ selectedMsg.status }}</span>
+            <div class="detail-status-wrapper">
+              <span :class="['badge', statusBadge(selectedMsg.status)]">{{ selectedMsg.status }}</span>
+              <button
+                v-if="store.isConfigured && selectedMsg.id"
+                class="btn btn-ghost btn-sm refresh-status-btn"
+                :disabled="isRefreshing"
+                @click="refreshStatus(selectedMsg.id)"
+              >
+                <span v-if="isRefreshing" class="spinner btn-spinner-sm"></span>
+                <span v-else>🔄</span>
+                <span>Refresh Status</span>
+              </button>
+            </div>
           </div>
           <div class="detail-row">
             <span class="detail-key">Recipients</span>
@@ -154,16 +178,35 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { store, clearHistory } from '../store/index.js'
+import { store, clearHistory, refreshMessageStatus } from '../store/index.js'
 import { useToast } from '../composables/useToast.js'
 
-const { success } = useToast()
+const { success, error } = useToast()
 
 const searchQuery = ref('')
 const statusFilter = ref('')
 const currentPage = ref(1)
 const perPage = 10
 const selectedMsg = ref(null)
+const isRefreshing = ref(false)
+
+async function refreshStatus(id) {
+  if (isRefreshing.value) return
+  isRefreshing.value = true
+  try {
+    const res = await refreshMessageStatus(id)
+    success(`Status updated: ${res.status}`)
+    if (selectedMsg.value && selectedMsg.value.id === id) {
+      selectedMsg.value.status = res.status
+      selectedMsg.value.results = res.results
+    }
+  } catch (err) {
+    const errMsg = err.response?.data?.message || err.message || 'Failed to update status'
+    error(`❌ ${errMsg}`)
+  } finally {
+    isRefreshing.value = false
+  }
+}
 
 const filteredHistory = computed(() => {
   let list = store.history
@@ -409,5 +452,36 @@ code.detail-val {
 
 .empty-state a:hover {
   text-decoration: underline;
+}
+
+.detail-status-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.refresh-status-btn {
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  height: auto;
+  color: var(--clr-accent-primary);
+  background: rgba(108, 99, 255, 0.05);
+  border: 1px solid var(--clr-border);
+}
+
+.refresh-status-btn:hover:not(:disabled) {
+  background: rgba(108, 99, 255, 0.12);
+  border-color: var(--clr-border-hover);
+}
+
+.btn-spinner-sm {
+  width: 12px;
+  height: 12px;
+  border-width: 1.5px;
+  border-top-color: var(--clr-accent-primary);
 }
 </style>

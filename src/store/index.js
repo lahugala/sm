@@ -1,5 +1,5 @@
 import { reactive, computed } from 'vue'
-import { createApiClient } from '../services/smsApi'
+import { createApiClient, getMessageStatus } from '../services/smsApi'
 
 const DEFAULT_CONFIG = {
   mode: 'cloud',           // active mode: 'local' | 'cloud'
@@ -147,6 +147,17 @@ export function updateHistoryStatus(id, status, results) {
     if (results) entry.results = results
     localStorage.setItem(HISTORY_KEY, JSON.stringify(store.history))
   }
+}
+
+export async function refreshMessageStatus(id) {
+  if (!store.apiClient || !store.isConfigured) {
+    throw new Error('Gateway API is not configured')
+  }
+  const data = await getMessageStatus(store.apiClient, id)
+  const status = data.state || data.status || 'Pending'
+  const results = data.recipients || []
+  updateHistoryStatus(id, status, results)
+  return { status, results }
 }
 
 export function clearHistory() {
